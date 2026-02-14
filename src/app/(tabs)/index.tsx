@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,9 +19,15 @@ export default function HomeScreen() {
   const router = useRouter();
   const userName = useUserStore((s) => s.name);
   const favoriteIds = useUserStore((s) => s.favoriteCharacters);
+  const logout = useUserStore((s) => s.logout);
   const getOrCreateIndividualChat = useChatStore((s) => s.getOrCreateIndividualChat);
   const getSortedChats = useChatStore((s) => s.getSortedChats);
   const createChat = useChatStore((s) => s.createChat);
+  const [activePersonality, setActivePersonality] = useState<{ id: string; source: 'hover' | 'longpress' } | null>(null);
+  const [hoveredStoryId, setHoveredStoryId] = useState<string | null>(null);
+  const [hoveredScenarioId, setHoveredScenarioId] = useState<string | null>(null);
+  const [hoveredChatId, setHoveredChatId] = useState<string | null>(null);
+  const [hoveredControl, setHoveredControl] = useState<'logout' | 'search' | 'add' | null>(null);
 
   const recentChats = getSortedChats();
 
@@ -57,18 +63,52 @@ export default function HomeScreen() {
     router.push(`/group/${chat.id}`);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    router.replace('/auth/login');
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* WhatsApp-style header */}
       <View style={styles.header}>
         <Text style={styles.appName}>AI Adda</Text>
         <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.headerBtn}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.headerBtn,
+              hoveredControl === 'logout' && styles.headerBtnHover,
+              pressed && styles.headerBtnPressed,
+            ]}
+            onPress={handleLogout}
+            onHoverIn={() => setHoveredControl('logout')}
+            onHoverOut={() => setHoveredControl(null)}
+          >
+            <Ionicons name="log-out-outline" size={22} color={colors.textSecondary} />
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.headerBtn,
+              hoveredControl === 'search' && styles.headerBtnHover,
+              pressed && styles.headerBtnPressed,
+            ]}
+            onHoverIn={() => setHoveredControl('search')}
+            onHoverOut={() => setHoveredControl(null)}
+          >
             <Ionicons name="search" size={22} color={colors.textSecondary} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerBtn} onPress={() => router.push('/group/create')}>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.headerBtn,
+              hoveredControl === 'add' && styles.headerBtnHover,
+              pressed && styles.headerBtnPressed,
+            ]}
+            onPress={() => router.push('/group/create')}
+            onHoverIn={() => setHoveredControl('add')}
+            onHoverOut={() => setHoveredControl(null)}
+          >
             <Ionicons name="add-circle-outline" size={24} color={colors.textSecondary} />
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
@@ -82,18 +122,50 @@ export default function HomeScreen() {
           contentContainerStyle={styles.storiesRow}
           renderItem={({ item }) => {
             const isFav = favoriteIds.includes(item.id);
+            const isPersonalityVisible = activePersonality?.id === item.id;
+            const personalityText = getPersonalitySummary(item);
             return (
-              <TouchableOpacity
-                style={styles.storyItem}
-                onPress={() => handleCharacterPress(item)}
-                activeOpacity={0.7}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.storyItem,
+                  hoveredStoryId === item.id && styles.storyItemHover,
+                  pressed && styles.storyItemPressed,
+                ]}
+                onHoverIn={() => {
+                  setHoveredStoryId(item.id);
+                  setActivePersonality({ id: item.id, source: 'hover' });
+                }}
+                onHoverOut={() => {
+                  setHoveredStoryId(null);
+                  if (activePersonality?.id === item.id && activePersonality.source === 'hover') {
+                    setActivePersonality(null);
+                  }
+                }}
+                onLongPress={() => setActivePersonality({ id: item.id, source: 'longpress' })}
+                delayLongPress={180}
+                onPress={() => {
+                  if (activePersonality?.id === item.id && activePersonality.source === 'longpress') {
+                    setActivePersonality(null);
+                    return;
+                  }
+                  setActivePersonality(null);
+                  handleCharacterPress(item);
+                }}
               >
                 <View style={[styles.storyRing, { borderColor: item.avatarColor }]}>
                   <Avatar color={item.avatarColor} emoji={item.avatarEmoji} image={item.avatarImage} size={56} showOnline />
                 </View>
                 <Text style={styles.storyName} numberOfLines={1}>{item.name}</Text>
                 {isFav && <Text style={styles.favDot}>♥</Text>}
-              </TouchableOpacity>
+                {isPersonalityVisible && (
+                  <View style={styles.personalityPopover}>
+                    <Text style={styles.personalityTitle}>{item.archetype}</Text>
+                    <Text style={styles.personalityText} numberOfLines={2}>
+                      {personalityText}
+                    </Text>
+                  </View>
+                )}
+              </Pressable>
             );
           }}
         />
@@ -119,10 +191,15 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scenarioList}
             renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.scenarioCard}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.scenarioCard,
+                  hoveredScenarioId === item.id && styles.scenarioCardHover,
+                  pressed && styles.scenarioCardPressed,
+                ]}
                 onPress={() => handleScenarioPress(item)}
-                activeOpacity={0.8}
+                onHoverIn={() => setHoveredScenarioId(item.id)}
+                onHoverOut={() => setHoveredScenarioId(null)}
               >
                 <LinearGradient
                   colors={['#FFF9EE', '#FFF3E3']}
@@ -143,7 +220,7 @@ export default function HomeScreen() {
                     ) : null;
                   })}
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
           />
         </View>
@@ -158,11 +235,16 @@ export default function HomeScreen() {
               const char = getCharacter(chat.characterIds[0]);
               const isGroup = chat.type === 'group';
               return (
-                <TouchableOpacity
+                <Pressable
                   key={chat.id}
-                  style={styles.chatItem}
+                  style={({ pressed }) => [
+                    styles.chatItem,
+                    hoveredChatId === chat.id && styles.chatItemHover,
+                    pressed && styles.chatItemPressed,
+                  ]}
                   onPress={() => handleChatPress(chat)}
-                  activeOpacity={0.7}
+                  onHoverIn={() => setHoveredChatId(chat.id)}
+                  onHoverOut={() => setHoveredChatId(null)}
                 >
                   {char && !isGroup ? (
                     <Avatar color={char.avatarColor} emoji={char.avatarEmoji} image={char.avatarImage} size={50} showOnline />
@@ -187,7 +269,7 @@ export default function HomeScreen() {
                       {chat.lastMessage || 'Tap to start chatting...'}
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </Pressable>
               );
             })}
           </View>
@@ -222,6 +304,19 @@ function formatTime(ts: number): string {
   return d.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
+function getPersonalitySummary(character: Character): string {
+  const traits: string[] = [];
+  const p = character.personality;
+  if (p.humor >= 7) traits.push('funny');
+  if (p.warmth >= 8) traits.push('warm');
+  if (p.sarcasm >= 7) traits.push('sarcastic');
+  if (p.energy >= 8) traits.push('high-energy');
+  if (p.wisdom >= 8) traits.push('wise');
+  if (p.desiMeter >= 8) traits.push('desi');
+  const traitSummary = traits.length > 0 ? traits.slice(0, 4).join(' • ') : 'balanced vibe';
+  return `${character.tagline} • ${traitSummary}`;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -249,6 +344,13 @@ const styles = StyleSheet.create({
   },
   headerBtn: {
     padding: spacing.xs,
+    borderRadius: 10,
+  },
+  headerBtnHover: {
+    backgroundColor: '#F3E6D5',
+  },
+  headerBtnPressed: {
+    backgroundColor: '#EBDDCA',
   },
   // Stories row
   storiesRow: {
@@ -259,6 +361,15 @@ const styles = StyleSheet.create({
   storyItem: {
     alignItems: 'center',
     width: 76,
+    position: 'relative',
+    borderRadius: 12,
+    paddingVertical: 2,
+  },
+  storyItemHover: {
+    backgroundColor: '#F7ECDD',
+  },
+  storyItemPressed: {
+    opacity: 0.8,
   },
   storyRing: {
     borderWidth: 2.5,
@@ -275,6 +386,35 @@ const styles = StyleSheet.create({
     color: '#FF6B6B',
     fontSize: 8,
     marginTop: 1,
+  },
+  personalityPopover: {
+    position: 'absolute',
+    top: 72,
+    left: -28,
+    width: 170,
+    backgroundColor: '#FFFCF5',
+    borderWidth: 1,
+    borderColor: '#EADCC8',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    shadowColor: '#B49D7C',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+    zIndex: 20,
+  },
+  personalityTitle: {
+    ...typography.small,
+    color: colors.textPrimary,
+    fontWeight: '700',
+  },
+  personalityText: {
+    ...typography.small,
+    color: colors.textSecondary,
+    marginTop: 3,
+    lineHeight: 16,
   },
   // Greeting
   greeting: {
@@ -331,6 +471,15 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
+  scenarioCardHover: {
+    borderColor: '#CDBA9E',
+    transform: [{ translateY: -2 }],
+    shadowOpacity: 0.2,
+  },
+  scenarioCardPressed: {
+    transform: [{ translateY: 0 }],
+    opacity: 0.95,
+  },
   scenarioEmoji: {
     fontSize: 28,
     marginBottom: spacing.sm,
@@ -364,6 +513,13 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.lg,
     borderRadius: 14,
     marginBottom: spacing.xs,
+  },
+  chatItemHover: {
+    borderColor: '#CDBA9E',
+    backgroundColor: '#FFF6EA',
+  },
+  chatItemPressed: {
+    opacity: 0.92,
   },
   chatInfo: {
     flex: 1,

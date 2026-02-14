@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useChatStore } from '../../store/useChatStore';
+import { useUserStore } from '../../store/useUserStore';
 import { getCharacter } from '../../data/characters';
 import { Avatar } from '../../components/common/Avatar';
 import { colors } from '../../theme/colors';
@@ -14,7 +15,10 @@ import { Chat } from '../../types';
 export default function ChatsScreen() {
   const router = useRouter();
   const getSortedChats = useChatStore((s) => s.getSortedChats);
+  const logout = useUserStore((s) => s.logout);
   const chats = getSortedChats();
+  const [hoveredChatId, setHoveredChatId] = useState<string | null>(null);
+  const [hoveredLogout, setHoveredLogout] = useState(false);
 
   const handlePress = (chat: Chat) => {
     if (chat.type === 'group') {
@@ -24,9 +28,28 @@ export default function ChatsScreen() {
     }
   };
 
+  const handleLogout = async () => {
+    await logout();
+    router.replace('/auth/login');
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <Text style={styles.title}>Chats</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Chats</Text>
+        <Pressable
+          onPress={handleLogout}
+          style={({ pressed }) => [
+            styles.logoutBtn,
+            hoveredLogout && styles.logoutBtnHover,
+            pressed && styles.logoutBtnPressed,
+          ]}
+          onHoverIn={() => setHoveredLogout(true)}
+          onHoverOut={() => setHoveredLogout(false)}
+        >
+          <Ionicons name="log-out-outline" size={21} color={colors.textSecondary} />
+        </Pressable>
+      </View>
 
       {chats.length === 0 ? (
         <View style={styles.empty}>
@@ -42,10 +65,15 @@ export default function ChatsScreen() {
             const char = getCharacter(item.characterIds[0]);
             const isGroup = item.type === 'group';
             return (
-              <TouchableOpacity
-                style={styles.item}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.item,
+                  hoveredChatId === item.id && styles.itemHover,
+                  pressed && styles.itemPressed,
+                ]}
                 onPress={() => handlePress(item)}
-                activeOpacity={0.7}
+                onHoverIn={() => setHoveredChatId(item.id)}
+                onHoverOut={() => setHoveredChatId(null)}
               >
                 {char && !isGroup ? (
                   <Avatar color={char.avatarColor} emoji={char.avatarEmoji} image={char.avatarImage} size={50} />
@@ -70,7 +98,7 @@ export default function ChatsScreen() {
                   )}
                   <Ionicons name="chevron-forward" size={14} color={colors.textMuted} />
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             );
           }}
         />
@@ -93,15 +121,32 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.bg,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: spacing.xxl,
+    backgroundColor: '#FDF9F1',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
   title: {
     ...typography.h1,
     color: '#177245',
     paddingHorizontal: spacing.xxl,
     paddingTop: spacing.xl,
     paddingBottom: spacing.lg,
-    backgroundColor: '#FDF9F1',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+  },
+  logoutBtn: {
+    marginTop: spacing.xs,
+    padding: spacing.xs,
+    borderRadius: 10,
+  },
+  logoutBtnHover: {
+    backgroundColor: '#F3E6D5',
+  },
+  logoutBtnPressed: {
+    backgroundColor: '#EBDDCA',
   },
   item: {
     flexDirection: 'row',
@@ -114,6 +159,13 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginHorizontal: spacing.lg,
     marginBottom: spacing.xs,
+  },
+  itemHover: {
+    borderColor: '#CDBA9E',
+    backgroundColor: '#FFF6EA',
+  },
+  itemPressed: {
+    opacity: 0.92,
   },
   groupAvatar: {
     width: 50,
