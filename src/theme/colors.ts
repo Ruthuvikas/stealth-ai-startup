@@ -1,26 +1,26 @@
 export const colors = {
-  // Light, warm WhatsApp-like base
-  bg: '#F8F2E8',
-  bgCard: '#FFFDF8',
-  bgElevated: '#FFF7EA',
-  bgInput: '#FFFFFF',
+  // Dark WhatsApp-like base
+  bg: '#0B141A',
+  bgCard: '#111B21',
+  bgElevated: '#1F2C33',
+  bgInput: '#1F2C33',
 
-  // Primary brand green + warm accent
-  primary: '#1FA463',
-  primaryDark: '#178550',
-  primaryLight: '#4FC586',
-  accent: '#E28A31',
-  accentSoft: '#E28A311A',
+  // Primary brand green + accent
+  primary: '#00A884',
+  primaryDark: '#008069',
+  primaryLight: '#25D366',
+  accent: '#F59E0B',
+  accentSoft: '#F59E0B1A',
 
   // Gradients
-  gradientStart: '#2AAE6E',
-  gradientEnd: '#1E9860',
+  gradientStart: '#00A884',
+  gradientEnd: '#00C98D',
 
-  // Text on light backgrounds
-  textPrimary: '#1F2A1F',
-  textSecondary: '#4E5B4F',
-  textMuted: '#7A8778',
-  textLink: '#238A7B',
+  // Text on dark backgrounds
+  textPrimary: '#E9EDEF',
+  textSecondary: '#B4C0C7',
+  textMuted: '#8696A0',
+  textLink: '#53BDEB',
 
   // Status
   online: '#00A884',
@@ -28,18 +28,18 @@ export const colors = {
   warning: '#F59E0B',
 
   // Chat bubbles
-  bubbleUser: '#DCF8C6',
-  bubbleUserDark: '#CDEEB3',
-  bubbleAI: '#FFFFFF',
-  bubbleAIDark: '#F7F1E8',
+  bubbleUser: '#005C4B',
+  bubbleUserDark: '#004A3D',
+  bubbleAI: '#1F2C33',
+  bubbleAIDark: '#1A252B',
 
   // Chat background
-  chatBg: '#EFE6DA',
-  chatPattern: '#E7DCCD',
+  chatBg: '#0B141A',
+  chatPattern: '#1A2A31',
 
   // Borders
-  border: '#E2D7C8',
-  borderLight: '#D7CBB9',
+  border: '#22313A',
+  borderLight: '#2A3942',
 
   // Unread badge
   badge: '#00A884',

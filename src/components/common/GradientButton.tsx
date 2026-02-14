@@ -21,7 +21,7 @@ export function GradientButton({ title, onPress, disabled, style, variant = 'pri
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.8} style={style}>
       <LinearGradient
-        colors={disabled ? ['#D8D0C2', '#D8D0C2'] as [string, string] : gradColors}
+        colors={disabled ? ['#2A3942', '#2A3942'] as [string, string] : gradColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.lg,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#1FA463',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,

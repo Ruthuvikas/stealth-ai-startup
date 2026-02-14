@@ -227,13 +227,13 @@ export default function GroupChatScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <LinearGradient
-          colors={['#FFFFFFAA', '#F0E4D300', '#EADCC8AA']}
+          colors={['#1B2B3222', '#0B141A00', '#0F1E2455']}
           style={styles.chatPatternTop}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         />
         <LinearGradient
-          colors={['#E7D8C300', '#DFCBB0A0', '#FFFFFF30']}
+          colors={['#0F1E2400', '#11242D88', '#1C2F3833']}
           style={styles.chatPatternBottom}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 1 }}
@@ -273,11 +273,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 7,
-    backgroundColor: '#FDF9F1',
+    backgroundColor: colors.bgCard,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     gap: spacing.sm,
-    shadowColor: '#B49D7C',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.12,
     shadowRadius: 3,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     zIndex: 50,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: '#8E7450',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.18,
     shadowRadius: 8,

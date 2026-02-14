@@ -99,7 +99,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={['#00A88812', 'transparent']}
+        colors={['#00A88822', 'transparent']}
         style={styles.bgGlow}
       />
       <KeyboardAvoidingView
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   },
   error: {
     ...typography.small,
-    color: '#C0392B',
+    color: colors.error,
     marginTop: spacing.md,
     textAlign: 'center',
   },

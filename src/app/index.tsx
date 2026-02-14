@@ -59,7 +59,7 @@ export default function SplashScreen() {
     <View style={styles.container}>
       {/* Background glow */}
       <LinearGradient
-        colors={['#D5F2DF', '#F8F2E8', '#F6E3C8']}
+        colors={['#0B141A', '#102229', '#0B141A']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFillObject}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#1FA463',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4,
     shadowRadius: 16,

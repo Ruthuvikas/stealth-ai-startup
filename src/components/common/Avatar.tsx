@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#8C7A60',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.18,
     shadowRadius: 5,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'cover',
-    shadowColor: '#8C7A60',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.18,
     shadowRadius: 5,
@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
   onlineDot: {
     position: 'absolute',
     backgroundColor: '#00A884',
-    borderColor: '#FFFDF8',
+    borderColor: '#111B21',
   },
 });

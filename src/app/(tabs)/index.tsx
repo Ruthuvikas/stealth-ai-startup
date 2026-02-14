@@ -203,7 +203,7 @@ export default function HomeScreen() {
                 onHoverOut={() => setHoveredScenarioId(null)}
               >
                 <LinearGradient
-                  colors={['#FFF9EE', '#FFF3E3']}
+                  colors={[colors.bgElevated, colors.bgCard]}
                   style={StyleSheet.absoluteFillObject}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -329,14 +329,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.xxl,
     paddingVertical: spacing.md,
-    backgroundColor: '#FDF9F1',
+    backgroundColor: colors.bgCard,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
   appName: {
     fontSize: 26,
     fontWeight: '800',
-    color: '#177245',
+    color: colors.primary,
     letterSpacing: -0.5,
   },
   headerRight: {
@@ -348,10 +348,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   headerBtnHover: {
-    backgroundColor: '#F3E6D5',
+    backgroundColor: colors.bgElevated,
   },
   headerBtnPressed: {
-    backgroundColor: '#EBDDCA',
+    backgroundColor: '#2A3942',
   },
   // Stories row
   storiesList: {
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     minHeight: 150,
   },
   storyItemHover: {
-    backgroundColor: '#F7ECDD',
+    backgroundColor: colors.bgElevated,
   },
   storyItemPressed: {
     opacity: 0.8,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   },
   storyName: {
     ...typography.small,
-    color: '#5E6B5F',
+    color: colors.textSecondary,
     marginTop: 6,
     textAlign: 'center',
   },
@@ -399,13 +399,13 @@ const styles = StyleSheet.create({
     top: 72,
     left: -28,
     width: 170,
-    backgroundColor: '#FFFCF5',
+    backgroundColor: colors.bgCard,
     borderWidth: 1,
-    borderColor: '#EADCC8',
+    borderColor: colors.border,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    shadowColor: '#B49D7C',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,
@@ -465,21 +465,21 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   scenarioCard: {
-    backgroundColor: '#FFF9EE',
+    backgroundColor: colors.bgCard,
     borderRadius: borderRadius.lg,
     padding: spacing.lg,
     width: 170,
     borderWidth: 1,
     borderColor: colors.border,
     overflow: 'hidden',
-    shadowColor: '#BAA17E',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 3,
   },
   scenarioCardHover: {
-    borderColor: '#CDBA9E',
+    borderColor: colors.borderLight,
     transform: [{ translateY: -2 }],
     shadowOpacity: 0.2,
   },
@@ -522,8 +522,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   chatItemHover: {
-    borderColor: '#CDBA9E',
-    backgroundColor: '#FFF6EA',
+    borderColor: colors.borderLight,
+    backgroundColor: colors.bgElevated,
   },
   chatItemPressed: {
     opacity: 0.92,

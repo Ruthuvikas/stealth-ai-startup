@@ -38,7 +38,7 @@ export function MessageBubble({
   const [showReactions, setShowReactions] = useState(false);
   const character = !isUser ? getCharacter(message.senderId) : null;
   const userReceiptIcon = message.isStreaming ? 'checkmark' : 'checkmark-done';
-  const userReceiptColor = message.isStreaming ? '#9AA89A' : colors.textLink;
+  const userReceiptColor = message.isStreaming ? colors.textMuted : colors.textLink;
   const hasContent = message.content.trim().length > 0;
   const visibleContent = hasContent ? message.content : !message.isStreaming ? '...' : '';
 
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     position: 'relative',
     borderWidth: 1,
-    shadowColor: '#A48E6E',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   bubbleUser: {
     backgroundColor: colors.bubbleUser,
     borderTopRightRadius: 4,
-    borderColor: '#CFE7B7',
+    borderColor: '#0C6A57',
   },
   bubbleAI: {
     backgroundColor: colors.bubbleAI,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   textUser: {
-    color: '#1B2A1D',
+    color: '#E9EDEF',
   },
   cursor: {
     color: colors.primary,
@@ -218,10 +218,10 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 10.5,
-    color: '#879586',
+    color: colors.textMuted,
   },
   timeUser: {
-    color: '#5F6F5E',
+    color: '#A5C7BD',
   },
   // Reactions
   reactions: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   reactionBubble: {
-    backgroundColor: '#F1E7D8',
+    backgroundColor: '#2A3942',
     borderRadius: 10,
     paddingHorizontal: 5,
     paddingVertical: 1,

@@ -87,7 +87,7 @@ export function MessageInput({ onSend, disabled, mentionableNames = [] }: Messag
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#F3EBDD',
+    backgroundColor: colors.bg,
     borderTopWidth: 1,
     borderTopColor: colors.border,
   },
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingHorizontal: spacing.xs,
     borderWidth: 1,
-    borderColor: '#D9CCB9',
+    borderColor: colors.border,
   },
   iconBtn: {
     padding: 7,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#B9C6B8',
+    backgroundColor: colors.bgElevated,
     alignItems: 'center',
     justifyContent: 'center',
   },

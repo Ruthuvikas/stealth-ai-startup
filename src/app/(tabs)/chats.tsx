@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingRight: spacing.xxl,
-    backgroundColor: '#FDF9F1',
+    backgroundColor: colors.bgCard,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
   title: {
     ...typography.h1,
-    color: '#177245',
+    color: colors.primary,
     paddingHorizontal: spacing.xxl,
     paddingTop: spacing.xl,
     paddingBottom: spacing.lg,
@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   logoutBtnHover: {
-    backgroundColor: '#F3E6D5',
+    backgroundColor: colors.bgElevated,
   },
   logoutBtnPressed: {
-    backgroundColor: '#EBDDCA',
+    backgroundColor: '#2A3942',
   },
   item: {
     flexDirection: 'row',
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   itemHover: {
-    borderColor: '#CDBA9E',
-    backgroundColor: '#FFF6EA',
+    borderColor: colors.borderLight,
+    backgroundColor: colors.bgElevated,
   },
   itemPressed: {
     opacity: 0.92,
