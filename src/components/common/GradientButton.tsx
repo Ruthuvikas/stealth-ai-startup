@@ -15,13 +15,13 @@ interface GradientButtonProps {
 
 export function GradientButton({ title, onPress, disabled, style, variant = 'primary' }: GradientButtonProps) {
   const gradColors: [string, string] = variant === 'accent'
-    ? ['#8B5CF6', '#A78BFA']
+    ? ['#E59A3E', '#D97F2B']
     : [colors.gradientStart, colors.gradientEnd];
 
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.8} style={style}>
       <LinearGradient
-        colors={disabled ? ['#1F2C33', '#1F2C33'] as [string, string] : gradColors}
+        colors={disabled ? ['#D8D0C2', '#D8D0C2'] as [string, string] : gradColors}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.lg,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#00A884',
+    shadowColor: '#1FA463',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,

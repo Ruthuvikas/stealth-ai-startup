@@ -34,10 +34,12 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
           placeholderTextColor={colors.textMuted}
           value={text}
           onChangeText={setText}
-          multiline
+          multiline={false}
           maxLength={500}
           editable={!disabled}
-          returnKeyType="default"
+          returnKeyType="send"
+          onSubmitEditing={handleSend}
+          blurOnSubmit={false}
         />
         <TouchableOpacity style={styles.iconBtn}>
           <Ionicons name="attach" size={24} color={colors.textMuted} />
@@ -67,16 +69,19 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     paddingBottom: Platform.OS === 'ios' ? spacing.sm : spacing.sm,
     gap: spacing.sm,
+    backgroundColor: '#F3EBDD',
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
   },
   inputRow: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    backgroundColor: colors.bgElevated,
+    backgroundColor: colors.bgInput,
     borderRadius: 24,
     paddingHorizontal: spacing.xs,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: '#D9CCB9',
   },
   iconBtn: {
     padding: spacing.sm,
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: colors.textMuted,
+    backgroundColor: '#B9C6B8',
     alignItems: 'center',
     justifyContent: 'center',
   },

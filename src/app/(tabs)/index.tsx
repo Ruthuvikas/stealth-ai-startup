@@ -230,11 +230,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.xxl,
     paddingVertical: spacing.md,
+    backgroundColor: '#FDF9F1',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   appName: {
     fontSize: 26,
     fontWeight: '800',
-    color: colors.primary,
+    color: '#177245',
     letterSpacing: -0.5,
   },
   headerRight: {
@@ -261,7 +264,7 @@ const styles = StyleSheet.create({
   },
   storyName: {
     ...typography.small,
-    color: colors.textSecondary,
+    color: '#5E6B5F',
     marginTop: 6,
     textAlign: 'center',
   },
@@ -312,7 +315,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   scenarioCard: {
-    backgroundColor: colors.bgCard,
+    backgroundColor: '#FFF9EE',
     borderRadius: borderRadius.lg,
     padding: spacing.lg,
     width: 170,
@@ -349,6 +352,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xxl,
+    backgroundColor: colors.bgCard,
   },
   chatInfo: {
     flex: 1,

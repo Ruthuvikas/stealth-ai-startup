@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgElevated,
     borderRadius: borderRadius.xl,
     padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
     gap: spacing.xs,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },

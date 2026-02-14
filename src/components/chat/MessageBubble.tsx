@@ -136,14 +136,17 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xs,
     borderRadius: 12,
     position: 'relative',
+    borderWidth: 1,
   },
   bubbleUser: {
     backgroundColor: colors.bubbleUser,
     borderTopRightRadius: 4,
+    borderColor: '#CFE7B7',
   },
   bubbleAI: {
     backgroundColor: colors.bubbleAI,
     borderTopLeftRadius: 4,
+    borderColor: colors.border,
   },
   // Bubble tail
   tail: {
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   textUser: {
-    color: '#E9EDEF',
+    color: '#1B2A1D',
   },
   cursor: {
     color: colors.primary,
@@ -205,7 +208,7 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
   timeUser: {
-    color: '#ffffff80',
+    color: '#5F6F5E',
   },
   // Reactions
   reactions: {
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   reactionBubble: {
-    backgroundColor: '#ffffff10',
+    backgroundColor: '#F1E7D8',
     borderRadius: 10,
     paddingHorizontal: 5,
     paddingVertical: 1,

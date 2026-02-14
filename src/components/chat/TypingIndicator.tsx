@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bubbleAI,
     borderRadius: 12,
     borderTopLeftRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
     paddingHorizontal: 16,
     paddingVertical: 12,
     flexDirection: 'row',
