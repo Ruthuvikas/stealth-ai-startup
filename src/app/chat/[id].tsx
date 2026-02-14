@@ -42,6 +42,13 @@ export default function ChatScreen() {
 
   const starters = getStartersForCharacter(characterId);
   const isStreaming = streamingChatId === id;
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+    router.replace('/(tabs)');
+  };
 
   const sendMessage = useCallback(async (text: string) => {
     const modResult = moderateInput(text);
@@ -163,7 +170,7 @@ export default function ChatScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* WhatsApp-style header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <Avatar color={character.avatarColor} emoji={character.avatarEmoji} image={character.avatarImage} size={38} showOnline />

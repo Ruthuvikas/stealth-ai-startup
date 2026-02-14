@@ -42,6 +42,13 @@ export default function GroupChatScreen() {
   const groupCharacters = getCharactersByIds(chat.characterIds);
   const scenario = chat.scenarioId ? getScenario(chat.scenarioId) : null;
   const isStreaming = streamingChatId === id;
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+    router.replace('/(tabs)');
+  };
 
   const getCharacterColor = (senderId: string) => {
     const idx = chat.characterIds.indexOf(senderId);
@@ -176,7 +183,7 @@ export default function GroupChatScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <View style={styles.avatarStack}>

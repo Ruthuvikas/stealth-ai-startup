@@ -12,8 +12,9 @@ import { spacing, borderRadius } from '../../theme/spacing';
 
 export default function NameScreen() {
   const router = useRouter();
+  const currentName = useUserStore((s) => s.name);
   const setName = useUserStore((s) => s.setName);
-  const [name, setNameLocal] = useState('');
+  const [name, setNameLocal] = useState(currentName);
 
   const headOpacity = useSharedValue(0);
   const headY = useSharedValue(30);

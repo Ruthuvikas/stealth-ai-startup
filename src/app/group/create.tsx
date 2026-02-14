@@ -18,6 +18,13 @@ export default function CreateGroupScreen() {
   const createChat = useChatStore((s) => s.createChat);
   const [selected, setSelected] = useState<string[]>([]);
   const [groupName, setGroupName] = useState('');
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+    router.replace('/(tabs)');
+  };
 
   const toggleCharacter = (id: string) => {
     setSelected((prev) => {
@@ -61,7 +68,7 @@ export default function CreateGroupScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={styles.title}>Create Group</Text>

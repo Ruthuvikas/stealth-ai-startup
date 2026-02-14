@@ -9,6 +9,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay, with
 
 export default function SplashScreen() {
   const router = useRouter();
+  const loggedIn = useUserStore((s) => s.loggedIn);
   const onboarded = useUserStore((s) => s.onboarded);
 
   const logoScale = useSharedValue(0.5);
@@ -42,7 +43,9 @@ export default function SplashScreen() {
     subtitleOpacity.value = withDelay(600, withTiming(1, { duration: 400 }));
 
     const timer = setTimeout(() => {
-      if (onboarded) {
+      if (!loggedIn) {
+        router.replace('/auth/login');
+      } else if (onboarded) {
         router.replace('/(tabs)');
       } else {
         router.replace('/onboarding/name');
@@ -50,7 +53,7 @@ export default function SplashScreen() {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onboarded]);
+  }, [loggedIn, onboarded]);
 
   return (
     <View style={styles.container}>

@@ -10,7 +10,9 @@ AI Adda is an Expo + React Native app for chatting with culturally-grounded AI c
 - Includes prebuilt "scene" templates for group chat setups
 - Streams model output token-by-token for live typing experience
 - Adds lightweight input moderation for unsafe content + PII patterns
-- Stores chats, messages, and onboarding state locally via AsyncStorage
+- Uses Supabase Auth (email/password) for signup/login
+- Stores user profile data in Supabase (`profiles` table)
+- Stores chats/messages locally in AsyncStorage
 
 ## Tech Stack
 
@@ -20,6 +22,7 @@ AI Adda is an Expo + React Native app for chatting with culturally-grounded AI c
 - Expo Router
 - Zustand (state management)
 - Anthropic SDK (`@anthropic-ai/sdk`) for model responses
+- Supabase (Auth + Postgres)
 - TypeScript
 
 ## Project Structure
@@ -56,13 +59,21 @@ npm install
 cp .env.example .env
 ```
 
-3. Set your Anthropic API key in `.env`:
+3. Set your environment variables in `.env`:
 
 ```bash
 EXPO_PUBLIC_ANTHROPIC_API_KEY=your_anthropic_key_here
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key_here
 ```
 
-4. Start the app:
+4. In Supabase SQL editor, run:
+
+```sql
+-- file: supabase/schema.sql
+```
+
+5. Start the app:
 
 ```bash
 npm run start
@@ -88,10 +99,20 @@ Then run on a target:
 - Messages stream live and can be regenerated in 1:1 chats.
 - Moderation blocks common unsafe keywords and simple PII patterns before sending.
 
+## Supabase Setup (Free Tier)
+
+- Create a free Supabase project.
+- Use only these free-tier components:
+  - Auth (email/password)
+  - Postgres table (`profiles`)
+- Optional but recommended for smooth signup UX:
+  - In Auth settings, disable email confirmations for development.
+- SQL schema + RLS policies are in `supabase/schema.sql`.
+
 ## Data + Persistence
 
-- Chat/user/onboarding data is stored locally in AsyncStorage.
-- No backend is required for local development.
+- Auth users and profile data are stored in Supabase.
+- Chat data is still stored locally in AsyncStorage.
 - API requests are made directly from client code.
 
 ## Security Note
@@ -101,9 +122,8 @@ Then run on a target:
 
 ## Current Scope
 
-This repo currently focuses on product UX, local state, prompt orchestration, and character experience. It does not yet include:
+This repo currently focuses on product UX, state management, prompt orchestration, and character experience. It does not yet include:
 
-- Backend auth/session management
 - Server-side key handling/proxying
 - Production-grade moderation pipeline
 - Automated test suite

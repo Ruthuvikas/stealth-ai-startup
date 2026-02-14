@@ -76,9 +76,12 @@ export interface Chat {
 }
 
 export interface UserProfile {
+  userId: string;
+  email: string;
   name: string;
   favoriteCharacters: string[];
   onboarded: boolean;
+  loggedIn: boolean;
 }
 
 export interface ConversationStarter {

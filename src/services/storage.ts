@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEYS = {
   USER: 'adda:user',
+  AUTH_SESSION: 'adda:auth_session',
   CHATS: 'adda:chats',
   MESSAGES: 'adda:messages',
   ONBOARDING: 'adda:onboarding',
