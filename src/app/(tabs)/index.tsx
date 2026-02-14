@@ -115,6 +115,7 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Stories-style character row */}
         <FlatList
+          style={styles.storiesList}
           horizontal
           data={sortedCharacters}
           keyExtractor={(item) => item.id}
@@ -353,10 +354,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#EBDDCA',
   },
   // Stories row
+  storiesList: {
+    overflow: 'visible',
+  },
   storiesRow: {
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
+    paddingBottom: spacing.xxxl,
     gap: spacing.sm,
+    overflow: 'visible',
   },
   storyItem: {
     alignItems: 'center',
@@ -364,6 +370,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderRadius: 12,
     paddingVertical: 2,
+    minHeight: 150,
   },
   storyItemHover: {
     backgroundColor: '#F7ECDD',
