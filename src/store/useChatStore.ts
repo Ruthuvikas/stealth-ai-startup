@@ -97,13 +97,29 @@ export const useChatStore = create<ChatState>((set, get) => ({
   updateMessage: (chatId: string, messageId: string, updates: Partial<Message>) => {
     set((s) => {
       const msgs = s.messages[chatId] || [];
+      const nextMsgs = msgs.map((m) => (m.id === messageId ? { ...m, ...updates } : m));
+      const updatedMsg = nextMsgs.find((m) => m.id === messageId);
+      const lastMsg = nextMsgs[nextMsgs.length - 1];
+      const shouldRefreshPreview = updatedMsg && lastMsg && updatedMsg.id === lastMsg.id;
+
       return {
         messages: {
           ...s.messages,
-          [chatId]: msgs.map((m) => (m.id === messageId ? { ...m, ...updates } : m)),
+          [chatId]: nextMsgs,
         },
+        chats: shouldRefreshPreview && s.chats[chatId]
+          ? {
+              ...s.chats,
+              [chatId]: {
+                ...s.chats[chatId],
+                lastMessage: (lastMsg.content || '').slice(0, 50),
+                lastMessageTime: lastMsg.timestamp,
+              },
+            }
+          : s.chats,
       };
     });
+    get().persist();
   },
 
   getMessages: (chatId: string) => get().messages[chatId] || [],
@@ -129,12 +145,25 @@ export const useChatStore = create<ChatState>((set, get) => ({
     const msgs = get().messages[chatId] || [];
     const lastAI = [...msgs].reverse().find((m) => m.senderId !== 'user');
     if (lastAI) {
+      const nextMsgs = msgs.filter((m) => m.id !== lastAI.id);
+      const newLast = nextMsgs[nextMsgs.length - 1];
       set((s) => ({
         messages: {
           ...s.messages,
-          [chatId]: msgs.filter((m) => m.id !== lastAI.id),
+          [chatId]: nextMsgs,
         },
+        chats: s.chats[chatId]
+          ? {
+              ...s.chats,
+              [chatId]: {
+                ...s.chats[chatId],
+                lastMessage: newLast?.content?.slice(0, 50) || '',
+                lastMessageTime: newLast?.timestamp,
+              },
+            }
+          : s.chats,
       }));
+      get().persist();
     }
     return lastAI;
   },
