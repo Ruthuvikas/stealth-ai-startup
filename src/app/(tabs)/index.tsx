@@ -125,7 +125,7 @@ export default function HomeScreen() {
                 activeOpacity={0.8}
               >
                 <LinearGradient
-                  colors={[colors.bgElevated, colors.bgCard]}
+                  colors={['#FFF9EE', '#FFF3E3']}
                   style={StyleSheet.absoluteFillObject}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
@@ -322,6 +322,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     overflow: 'hidden',
+    shadowColor: '#BAA17E',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 3,
   },
   scenarioEmoji: {
     fontSize: 28,
@@ -353,13 +358,14 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xxl,
     backgroundColor: colors.bgCard,
+    marginHorizontal: spacing.lg,
+    borderRadius: 14,
+    marginBottom: spacing.xs,
   },
   chatInfo: {
     flex: 1,
     marginLeft: spacing.md,
-    borderBottomWidth: 0.5,
-    borderBottomColor: colors.border,
-    paddingBottom: spacing.md,
+    paddingBottom: spacing.xs,
   },
   chatTop: {
     flexDirection: 'row',

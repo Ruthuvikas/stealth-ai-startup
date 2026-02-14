@@ -30,7 +30,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
         </TouchableOpacity>
         <TextInput
           style={styles.input}
-          placeholder="Type a message..."
+          placeholder="Message"
           placeholderTextColor={colors.textMuted}
           value={text}
           onChangeText={setText}
@@ -42,7 +42,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
           blurOnSubmit={false}
         />
         <TouchableOpacity style={styles.iconBtn}>
-          <Ionicons name="attach" size={24} color={colors.textMuted} />
+          <Ionicons name="camera-outline" size={22} color={colors.textMuted} />
         </TouchableOpacity>
       </View>
 
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     ...typography.chat,
     color: colors.textPrimary,
-    paddingVertical: 10,
+    paddingVertical: 11,
     paddingHorizontal: 4,
     maxHeight: 100,
   },

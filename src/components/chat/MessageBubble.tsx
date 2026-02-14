@@ -134,9 +134,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
-    borderRadius: 12,
+    borderRadius: 14,
     position: 'relative',
     borderWidth: 1,
+    shadowColor: '#A48E6E',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
   },
   bubbleUser: {
     backgroundColor: colors.bubbleUser,
@@ -205,7 +210,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 10.5,
-    color: colors.textMuted,
+    color: '#879586',
   },
   timeUser: {
     color: '#5F6F5E',

@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useChatStore } from '../../store/useChatStore';
 import { useUserStore } from '../../store/useUserStore';
@@ -202,6 +203,18 @@ export default function GroupChatScreen() {
         style={styles.chatArea}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
+        <LinearGradient
+          colors={['#FFFFFFAA', '#F0E4D300', '#EADCC8AA']}
+          style={styles.chatPatternTop}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        />
+        <LinearGradient
+          colors={['#E7D8C300', '#DFCBB0A0', '#FFFFFF30']}
+          style={styles.chatPatternBottom}
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 1 }}
+        />
         {messages.length === 0 && scenario ? (
           <View style={styles.scenarioIntro}>
             <Text style={styles.scenarioEmoji}>{scenario.emoji}</Text>
@@ -233,9 +246,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
+    backgroundColor: '#FDF9F1',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     gap: spacing.sm,
+    shadowColor: '#B49D7C',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3,
+    elevation: 2,
   },
   backBtn: {
     padding: spacing.xs,
@@ -279,9 +298,9 @@ const styles = StyleSheet.create({
     zIndex: 50,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: '#000',
+    shadowColor: '#8E7450',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.18,
     shadowRadius: 8,
     elevation: 8,
   },
@@ -296,6 +315,24 @@ const styles = StyleSheet.create({
   },
   chatArea: {
     flex: 1,
+    backgroundColor: colors.chatBg,
+    position: 'relative',
+  },
+  chatPatternTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '55%',
+    opacity: 0.25,
+  },
+  chatPatternBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '45%',
+    opacity: 0.22,
   },
   scenarioIntro: {
     alignItems: 'center',

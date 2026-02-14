@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -188,6 +188,18 @@ export default function ChatScreen() {
       >
         {/* Chat wallpaper pattern */}
         <View style={styles.chatBg}>
+          <LinearGradient
+            colors={['#FFFFFFAA', '#F0E4D300', '#EADCC8AA']}
+            style={styles.chatPatternTop}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+          <LinearGradient
+            colors={['#E7D8C300', '#DFCBB0A0', '#FFFFFF30']}
+            style={styles.chatPatternBottom}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 1 }}
+          />
           {messages.length === 0 ? (
             <View style={styles.starterArea}>
               <View style={styles.starterCard}>
@@ -223,10 +235,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.sm,
-    backgroundColor: colors.bgCard,
+    backgroundColor: '#FDF9F1',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
     gap: spacing.sm,
+    shadowColor: '#B49D7C',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 3,
+    elevation: 2,
   },
   backBtn: {
     padding: spacing.xs,
@@ -253,6 +270,23 @@ const styles = StyleSheet.create({
   chatBg: {
     flex: 1,
     backgroundColor: colors.chatBg,
+    position: 'relative',
+  },
+  chatPatternTop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '55%',
+    opacity: 0.25,
+  },
+  chatPatternBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '45%',
+    opacity: 0.22,
   },
   starterArea: {
     flex: 1,
@@ -269,6 +303,11 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.xxl,
     borderWidth: 1,
     borderColor: colors.border,
+    shadowColor: '#B49D7C',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    elevation: 4,
   },
   starterTitle: {
     ...typography.h2,

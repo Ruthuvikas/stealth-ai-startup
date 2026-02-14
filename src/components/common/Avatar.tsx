@@ -64,15 +64,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: '#8C7A60',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 4,
+    shadowOpacity: 0.18,
+    shadowRadius: 5,
+    elevation: 3,
   },
   onlineDot: {
     position: 'absolute',
     backgroundColor: '#00A884',
-    borderColor: '#0B141A',
+    borderColor: '#FFFDF8',
   },
 });

@@ -105,8 +105,11 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.xxl,
     backgroundColor: colors.bgCard,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 14,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.xs,
   },
   groupAvatar: {
     width: 50,

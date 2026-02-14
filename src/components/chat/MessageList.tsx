@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { Message } from '../../types';
 import { MessageBubble } from './MessageBubble';
 import { TypingIndicator } from './TypingIndicator';
 import { spacing } from '../../theme/spacing';
+import { getCharacter } from '../../data/characters';
 
 interface MessageListProps {
   messages: Message[];
@@ -42,9 +43,10 @@ export function MessageList({
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.list}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       renderItem={({ item }) => {
         const isUser = item.senderId === 'user';
-        const char = !isUser ? require('../../data/characters').getCharacter(item.senderId) : null;
+        const char = !isUser ? getCharacter(item.senderId) : null;
         return (
           <MessageBubble
             message={item}
@@ -64,6 +66,7 @@ export function MessageList({
 
 const styles = StyleSheet.create({
   list: {
-    paddingVertical: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.lg,
   },
 });

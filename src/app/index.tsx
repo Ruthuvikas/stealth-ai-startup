@@ -16,7 +16,6 @@ export default function SplashScreen() {
   const titleY = useSharedValue(20);
   const titleOpacity = useSharedValue(0);
   const subtitleOpacity = useSharedValue(0);
-  const bgGlow = useSharedValue(0);
 
   const logoStyle = useAnimatedStyle(() => ({
     opacity: logoOpacity.value,
@@ -57,7 +56,7 @@ export default function SplashScreen() {
     <View style={styles.container}>
       {/* Background glow */}
       <LinearGradient
-        colors={['#00A88420', 'transparent', '#8B5CF610']}
+        colors={['#D5F2DF', '#F8F2E8', '#F6E3C8']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFillObject}
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#00A884',
+    shadowColor: '#1FA463',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4,
     shadowRadius: 16,
