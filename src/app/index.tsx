@@ -71,7 +71,7 @@ export default function SplashScreen() {
         </LinearGradient>
       </Animated.View>
 
-      <Animated.Text style={[styles.title, titleStyle]}>Adda</Animated.Text>
+      <Animated.Text style={[styles.title, titleStyle]}>AI Adda</Animated.Text>
       <Animated.Text style={[styles.subtitle, subtitleStyle]}>
         Your AI dost, always online 💬
       </Animated.Text>

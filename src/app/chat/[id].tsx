@@ -166,7 +166,7 @@ export default function ChatScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={24} color={colors.textPrimary} />
         </TouchableOpacity>
-        <Avatar color={character.avatarColor} emoji={character.avatarEmoji} size={38} showOnline />
+        <Avatar color={character.avatarColor} emoji={character.avatarEmoji} image={character.avatarImage} size={38} showOnline />
         <View style={styles.headerInfo}>
           <Text style={styles.headerName}>{character.name}</Text>
           <Text style={styles.headerStatus}>
@@ -203,7 +203,7 @@ export default function ChatScreen() {
           {messages.length === 0 ? (
             <View style={styles.starterArea}>
               <View style={styles.starterCard}>
-                <Avatar color={character.avatarColor} emoji={character.avatarEmoji} size={72} showOnline />
+                <Avatar color={character.avatarColor} emoji={character.avatarEmoji} image={character.avatarImage} size={72} showOnline />
                 <Text style={styles.starterTitle}>{character.name}</Text>
                 <Text style={styles.starterRole}>{character.archetype} • {character.city}</Text>
                 <Text style={styles.starterTagline}>"{character.tagline}"</Text>
@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.sm,
+    paddingHorizontal: 6,
+    paddingVertical: 7,
     backgroundColor: '#FDF9F1',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   backBtn: {
-    padding: spacing.xs,
+    padding: 5,
   },
   headerInfo: {
     flex: 1,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   headerAction: {
-    padding: spacing.sm,
+    padding: 6,
   },
   chatArea: {
     flex: 1,

@@ -118,7 +118,7 @@ export default function CreateGroupScreen() {
               onPress={() => toggleCharacter(item.id)}
               activeOpacity={0.7}
             >
-              <Avatar color={item.avatarColor} emoji={item.avatarEmoji} size={40} />
+              <Avatar color={item.avatarColor} emoji={item.avatarEmoji} image={item.avatarImage} size={40} />
               <Text style={styles.charName}>{item.name}</Text>
               <Text style={styles.charType}>{item.archetype}</Text>
             </TouchableOpacity>

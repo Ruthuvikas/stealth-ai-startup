@@ -61,7 +61,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* WhatsApp-style header */}
       <View style={styles.header}>
-        <Text style={styles.appName}>Adda</Text>
+        <Text style={styles.appName}>AI Adda</Text>
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.headerBtn}>
             <Ionicons name="search" size={22} color={colors.textSecondary} />
@@ -89,7 +89,7 @@ export default function HomeScreen() {
                 activeOpacity={0.7}
               >
                 <View style={[styles.storyRing, { borderColor: item.avatarColor }]}>
-                  <Avatar color={item.avatarColor} emoji={item.avatarEmoji} size={56} showOnline />
+                  <Avatar color={item.avatarColor} emoji={item.avatarEmoji} image={item.avatarImage} size={56} showOnline />
                 </View>
                 <Text style={styles.storyName} numberOfLines={1}>{item.name}</Text>
                 {isFav && <Text style={styles.favDot}>♥</Text>}
@@ -138,7 +138,7 @@ export default function HomeScreen() {
                     const c = getCharacter(cid);
                     return c ? (
                       <View key={c.id} style={styles.scenarioAvatar}>
-                        <Avatar color={c.avatarColor} emoji={c.avatarEmoji} size={24} />
+                        <Avatar color={c.avatarColor} emoji={c.avatarEmoji} image={c.avatarImage} size={24} />
                       </View>
                     ) : null;
                   })}
@@ -165,7 +165,7 @@ export default function HomeScreen() {
                   activeOpacity={0.7}
                 >
                   {char && !isGroup ? (
-                    <Avatar color={char.avatarColor} emoji={char.avatarEmoji} size={50} showOnline />
+                    <Avatar color={char.avatarColor} emoji={char.avatarEmoji} image={char.avatarImage} size={50} showOnline />
                   ) : (
                     <View style={styles.groupAvatar}>
                       <Text style={{ fontSize: 22 }}>👥</Text>
@@ -176,9 +176,12 @@ export default function HomeScreen() {
                       <Text style={styles.chatName}>
                         {isGroup ? chat.title : char?.name || 'Chat'}
                       </Text>
-                      {chat.lastMessageTime && (
-                        <Text style={styles.chatTime}>{formatTime(chat.lastMessageTime)}</Text>
-                      )}
+                      <View style={styles.chatMetaRight}>
+                        {chat.lastMessageTime && (
+                          <Text style={styles.chatTime}>{formatTime(chat.lastMessageTime)}</Text>
+                        )}
+                        <Ionicons name="chevron-forward" size={14} color={colors.textMuted} />
+                      </View>
                     </View>
                     <Text style={styles.chatPreview} numberOfLines={1}>
                       {chat.lastMessage || 'Tap to start chatting...'}
@@ -371,6 +374,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  chatMetaRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
   },
   chatName: {
     ...typography.bodyBold,

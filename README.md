@@ -1,6 +1,6 @@
-# Adda - AI Dost Chat App
+# AI Adda - AI Dost Chat App
 
-Adda is an Expo + React Native app for chatting with culturally-grounded AI characters in Hinglish, with support for both 1:1 and multi-character group conversations.
+AI Adda is an Expo + React Native app for chatting with culturally-grounded AI characters in Hinglish, with support for both 1:1 and multi-character group conversations.
 
 ## What It Does
 

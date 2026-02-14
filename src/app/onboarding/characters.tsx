@@ -68,7 +68,7 @@ export default function CharacterSelectionScreen() {
                   <Text style={styles.check}>✓</Text>
                 </View>
               )}
-              <Avatar color={item.avatarColor} emoji={item.avatarEmoji} size={56} showOnline />
+              <Avatar color={item.avatarColor} emoji={item.avatarEmoji} image={item.avatarImage} size={56} showOnline />
               <Text style={styles.name}>{item.name}</Text>
               <View style={styles.archBadge}>
                 <Text style={styles.archetype}>{item.archetype}</Text>

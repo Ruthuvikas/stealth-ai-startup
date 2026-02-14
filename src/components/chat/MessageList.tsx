@@ -44,6 +44,9 @@ export function MessageList({
       contentContainerStyle={styles.list}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
+      removeClippedSubviews
+      maxToRenderPerBatch={10}
+      updateCellsBatchingPeriod={16}
       renderItem={({ item }) => {
         const isUser = item.senderId === 'user';
         const char = !isUser ? getCharacter(item.senderId) : null;
@@ -66,7 +69,7 @@ export function MessageList({
 
 const styles = StyleSheet.create({
   list: {
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.lg,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
   },
 });

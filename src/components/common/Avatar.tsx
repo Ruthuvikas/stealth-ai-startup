@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, type ImageSourcePropType } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface AvatarProps {
   color: string;
   emoji: string;
+  image?: ImageSourcePropType;
   size?: number;
   showOnline?: boolean;
   name?: string;
@@ -19,27 +20,42 @@ function lighten(hex: string, amount: number): string {
   return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
 }
 
-export function Avatar({ color, emoji, size = 44, showOnline, name }: AvatarProps) {
+export function Avatar({ color, emoji, image, size = 44, showOnline, name }: AvatarProps) {
   const fontSize = size * 0.48;
   const onlineDot = size * 0.26;
 
   return (
     <View style={{ width: size, height: size }}>
-      <LinearGradient
-        colors={[lighten(color, 30), color, lighten(color, -40)]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[
-          styles.container,
-          {
-            width: size,
-            height: size,
-            borderRadius: size / 2,
-          },
-        ]}
-      >
-        <Text style={{ fontSize, lineHeight: fontSize * 1.2 }}>{emoji}</Text>
-      </LinearGradient>
+      {image ? (
+        <Image
+          source={image}
+          accessibilityLabel={name ? `${name} avatar` : 'Avatar'}
+          style={[
+            styles.image,
+            {
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+            },
+          ]}
+        />
+      ) : (
+        <LinearGradient
+          colors={[lighten(color, 30), color, lighten(color, -40)]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[
+            styles.container,
+            {
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+            },
+          ]}
+        >
+          <Text style={{ fontSize, lineHeight: fontSize * 1.2 }}>{emoji}</Text>
+        </LinearGradient>
+      )}
 
       {showOnline && (
         <View
@@ -64,6 +80,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#8C7A60',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.18,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  image: {
+    resizeMode: 'cover',
     shadowColor: '#8C7A60',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.18,

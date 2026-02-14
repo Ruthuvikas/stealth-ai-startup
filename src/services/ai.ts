@@ -17,6 +17,7 @@ const CONTEXT_MESSAGES = 20;
 const BASE_PROMPT = `You are a character in a WhatsApp-style chat app. You MUST:
 - Keep responses SHORT (1-3 sentences max, like real WhatsApp messages)
 - Write in Hinglish (mix of Hindi and English, using Roman script for Hindi)
+- Bias toward Hindi-first phrasing unless the character naturally speaks otherwise
 - NEVER break character, NEVER mention you're an AI
 - Use emojis naturally (1-2 per message, not more)
 - React to the conversation naturally, like a real person would on WhatsApp
@@ -199,7 +200,7 @@ export async function streamCharacterResponse(
     }
 
     // Strip character name prefix if the model added it
-    fullText = stripCharacterPrefix(fullText, character.name);
+    fullText = ensureNonEmptyReply(stripCharacterPrefix(fullText, character.name));
     onComplete(fullText);
   } catch (error) {
     onError(error instanceof Error ? error : new Error(String(error)));
@@ -259,7 +260,7 @@ export async function streamGroupResponse(
       }
     }
 
-    fullText = stripCharacterPrefix(fullText, character.name);
+    fullText = ensureNonEmptyReply(stripCharacterPrefix(fullText, character.name));
     onComplete(fullText);
   } catch (error) {
     onError(error instanceof Error ? error : new Error(String(error)));
@@ -272,6 +273,11 @@ function stripCharacterPrefix(text: string, characterName: string): string {
   return text.replace(prefixPattern, '').trim();
 }
 
+function ensureNonEmptyReply(text: string): string {
+  const cleaned = text.replace(/\s+/g, ' ').trim();
+  return cleaned.length > 0 ? cleaned : 'Haan yaar, bol na.';
+}
+
 /**
  * Determine which characters should respond in a group chat
  * and in what order (based on message content relevance).
@@ -280,10 +286,13 @@ export function determineGroupResponders(
   message: string,
   characterIds: string[],
   characters: Character[],
-  mutedIds: string[]
+  mutedIds: string[],
+  mentionedIds: string[] = []
 ): string[] {
   const available = characterIds.filter((id) => !mutedIds.includes(id));
   if (available.length === 0) return [];
+
+  const uniqueMentioned = [...new Set(mentionedIds)].filter((id) => available.includes(id));
 
   const messageLower = message.toLowerCase();
 
@@ -308,6 +317,8 @@ export function determineGroupResponders(
       meera: ['america', 'nri', 'abroad', 'us', 'dollar', 'visa'],
       faizan: ['meme', 'funny', 'hera pheri', 'movie', 'dialogue', 'joke'],
       ananya: ['study', 'plan', 'notion', 'productive', 'career', 'kota'],
+      manu: ['bangalore', 'bengaluru', 'traffic', 'macha', 'coffee', 'startup', 'tech'],
+      riya: ['kolkata', 'pujo', 'adda', 'biryani', 'culture', 'chai', 'art'],
       dev: ['stress', 'chill', 'relax', 'life', 'peace', 'goa', 'philosophy'],
     };
 
@@ -320,7 +331,16 @@ export function determineGroupResponders(
 
   scored.sort((a, b) => b.score - a.score);
 
-  // 1-3 characters respond
-  const numResponders = Math.min(available.length, Math.random() > 0.4 ? 2 : available.length > 2 ? 3 : 1);
-  return scored.slice(0, numResponders).map((s) => s.id);
+  // 1-3 characters respond, but always include explicitly @mentioned users first.
+  const numResponders = Math.min(
+    available.length,
+    Math.max(uniqueMentioned.length, Math.random() > 0.4 ? 2 : available.length > 2 ? 3 : 1)
+  );
+
+  const prioritized = [
+    ...uniqueMentioned,
+    ...scored.map((s) => s.id).filter((id) => !uniqueMentioned.includes(id)),
+  ];
+
+  return prioritized.slice(0, numResponders);
 }

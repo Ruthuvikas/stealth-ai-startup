@@ -29,6 +29,15 @@ export const conversationStarters: ConversationStarter[] = [
     ],
   },
   {
+    characterId: 'sana',
+    prompts: [
+      'SoBo ka perfect day plan banao',
+      'Yaar relationship confusion hai, help karo',
+      'Mumbai mein classy but fun date spot batao',
+      'Mujhe confidence boost chahiye, pep talk do',
+    ],
+  },
+  {
     characterId: 'vikram',
     prompts: [
       'Bhai gym start karna hai, kaise karoon?',
@@ -80,6 +89,24 @@ export const conversationStarters: ConversationStarter[] = [
       'Best Notion template kaunsa hai?',
       'Kota coaching kaisi thi?',
       'Apna 10-year plan batao',
+    ],
+  },
+  {
+    characterId: 'manu',
+    prompts: [
+      'Bangalore traffic survive kaise karte ho?',
+      'Macha, startup join karun ya stable job loon?',
+      'Best filter coffee spot in Bengaluru?',
+      'Yaake sab log Silk Board se darte hain?',
+    ],
+  },
+  {
+    characterId: 'riya',
+    prompts: [
+      'Kolkata ka best comfort food kya hai?',
+      'Durga Pujo vibe explain karo na',
+      'Adda aur gossip mein difference kya hai?',
+      'Mera mood off hai, kuch soulful bolo',
     ],
   },
   {

@@ -21,7 +21,7 @@ export function CharacterCard({ character, onPress }: CharacterCardProps) {
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
       />
-      <Avatar color={character.avatarColor} emoji={character.avatarEmoji} size={52} showOnline />
+      <Avatar color={character.avatarColor} emoji={character.avatarEmoji} image={character.avatarImage} size={52} showOnline />
       <Text style={styles.name}>{character.name}</Text>
       <Text style={[styles.archetype, { color: character.avatarColor }]}>{character.archetype}</Text>
       <Text style={styles.city}>{character.city}</Text>

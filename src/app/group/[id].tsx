@@ -12,6 +12,7 @@ import { streamGroupResponse, determineGroupResponders } from '../../services/ai
 import { moderateInput } from '../../services/moderation';
 import { MessageList } from '../../components/chat/MessageList';
 import { MessageInput } from '../../components/chat/MessageInput';
+import { Avatar } from '../../components/common/Avatar';
 import { Message } from '../../types';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
@@ -47,6 +48,21 @@ export default function GroupChatScreen() {
     return idx >= 0 ? colors.characterColors[idx % colors.characterColors.length] : undefined;
   };
 
+  const extractMentionedCharacterIds = (message: string): string[] => {
+    const matches = message.match(/@([a-z0-9_]+)/gi) || [];
+    if (matches.length === 0) return [];
+
+    const mentioned = new Set<string>();
+    for (const rawMention of matches) {
+      const mention = rawMention.slice(1).toLowerCase();
+      const character = groupCharacters.find((c) => c.name.toLowerCase() === mention);
+      if (character) {
+        mentioned.add(character.id);
+      }
+    }
+    return [...mentioned];
+  };
+
   const sendMessage = useCallback(async (text: string) => {
     const modResult = moderateInput(text);
     if (!modResult.safe) {
@@ -75,11 +91,13 @@ export default function GroupChatScreen() {
     setStreaming(id!);
 
     // Determine which characters respond
+    const mentionedCharacterIds = extractMentionedCharacterIds(text);
     const responders = determineGroupResponders(
       text,
       chat.characterIds,
       groupCharacters,
-      chat.mutedCharacters
+      chat.mutedCharacters,
+      mentionedCharacterIds
     );
 
     // Characters respond sequentially
@@ -164,9 +182,7 @@ export default function GroupChatScreen() {
         <View style={styles.avatarStack}>
           {groupCharacters.slice(0, 3).map((c, i) => (
             <View key={c.id} style={[styles.stackedAvatar, { marginLeft: i > 0 ? -10 : 0, zIndex: 3 - i }]}>
-              <View style={[styles.miniAvatar, { backgroundColor: c.avatarColor + '30' }]}>
-                <Text style={{ fontSize: 14 }}>{c.avatarEmoji}</Text>
-              </View>
+              <Avatar color={c.avatarColor} emoji={c.avatarEmoji} image={c.avatarImage} size={28} />
             </View>
           ))}
         </View>
@@ -230,7 +246,11 @@ export default function GroupChatScreen() {
           showSenderName
           getCharacterColor={getCharacterColor}
         />
-        <MessageInput onSend={sendMessage} disabled={isStreaming} />
+        <MessageInput
+          onSend={sendMessage}
+          disabled={isStreaming}
+          mentionableNames={groupCharacters.map((c) => c.name)}
+        />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -244,8 +264,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
+    paddingHorizontal: 8,
+    paddingVertical: 7,
     backgroundColor: '#FDF9F1',
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
@@ -257,7 +277,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   backBtn: {
-    padding: spacing.xs,
+    padding: 5,
   },
   avatarStack: {
     flexDirection: 'row',
@@ -286,7 +306,7 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
   menuBtn: {
-    padding: spacing.sm,
+    padding: 6,
   },
   menu: {
     position: 'absolute',

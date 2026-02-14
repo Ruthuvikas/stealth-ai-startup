@@ -60,7 +60,7 @@ export default function NameScreen() {
             <Text style={styles.emoji}>💬</Text>
             <Text style={styles.emoji}>🇮🇳</Text>
           </View>
-          <Text style={styles.title}>Welcome to Adda!</Text>
+          <Text style={styles.title}>Welcome to AI Adda!</Text>
           <Text style={styles.subtitle}>
             Chat with AI characters who speak your language{'\n'}Hinglish, drama, aur bahut masti 🎉
           </Text>

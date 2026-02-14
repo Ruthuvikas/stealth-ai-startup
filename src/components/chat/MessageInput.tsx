@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
-import { spacing, borderRadius } from '../../theme/spacing';
+import { spacing } from '../../theme/spacing';
 
 interface MessageInputProps {
   onSend: (text: string) => void;
   disabled?: boolean;
+  mentionableNames?: string[];
 }
 
-export function MessageInput({ onSend, disabled }: MessageInputProps) {
+export function MessageInput({ onSend, disabled, mentionableNames = [] }: MessageInputProps) {
   const [text, setText] = useState('');
 
   const handleSend = () => {
@@ -21,9 +22,31 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
   };
 
   const hasText = text.trim().length > 0;
+  const mentionMatch = text.match(/(?:^|\s)@([a-z0-9_]*)$/i);
+  const mentionQuery = mentionMatch?.[1]?.toLowerCase() ?? null;
+  const mentionCandidates = mentionQuery !== null
+    ? mentionableNames.filter((name) => name.toLowerCase().startsWith(mentionQuery)).slice(0, 5)
+    : [];
+
+  const insertMention = (name: string) => {
+    setText((prev) => prev.replace(/(?:^|\s)@([a-z0-9_]*)$/i, (match) => {
+      const leadingSpace = match.startsWith(' ') ? ' ' : '';
+      return `${leadingSpace}@${name} `;
+    }));
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.wrapper}>
+      {mentionCandidates.length > 0 ? (
+        <View style={styles.mentionList}>
+          {mentionCandidates.map((name) => (
+            <TouchableOpacity key={name} style={styles.mentionItem} onPress={() => insertMention(name)}>
+              <Text style={styles.mentionText}>@{name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ) : null}
+      <View style={styles.container}>
       <View style={styles.inputRow}>
         <TouchableOpacity style={styles.iconBtn}>
           <Ionicons name="happy-outline" size={24} color={colors.textMuted} />
@@ -57,21 +80,42 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
           <Ionicons name="mic" size={22} color="#fff" />
         )}
       </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.sm,
-    paddingBottom: Platform.OS === 'ios' ? spacing.sm : spacing.sm,
-    gap: spacing.sm,
+  wrapper: {
     backgroundColor: '#F3EBDD',
     borderTopWidth: 1,
     borderTopColor: colors.border,
+  },
+  mentionList: {
+    marginHorizontal: spacing.sm,
+    marginTop: spacing.sm,
+    marginBottom: spacing.xs,
+    backgroundColor: colors.bgElevated,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  mentionItem: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  mentionText: {
+    ...typography.body,
+    color: colors.textPrimary,
+    fontSize: 14,
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingHorizontal: 6,
+    paddingVertical: 6,
+    paddingBottom: Platform.OS === 'ios' ? 6 : 6,
+    gap: spacing.sm,
   },
   inputRow: {
     flex: 1,
@@ -84,16 +128,16 @@ const styles = StyleSheet.create({
     borderColor: '#D9CCB9',
   },
   iconBtn: {
-    padding: spacing.sm,
-    paddingBottom: 10,
+    padding: 7,
+    paddingBottom: 9,
   },
   input: {
     flex: 1,
     ...typography.chat,
     color: colors.textPrimary,
-    paddingVertical: 11,
+    paddingVertical: 10,
     paddingHorizontal: 4,
-    maxHeight: 100,
+    maxHeight: 42,
   },
   sendButton: {
     width: 44,

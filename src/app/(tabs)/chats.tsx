@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { useChatStore } from '../../store/useChatStore';
 import { getCharacter } from '../../data/characters';
 import { Avatar } from '../../components/common/Avatar';
@@ -47,7 +48,7 @@ export default function ChatsScreen() {
                 activeOpacity={0.7}
               >
                 {char && !isGroup ? (
-                  <Avatar color={char.avatarColor} emoji={char.avatarEmoji} size={50} />
+                  <Avatar color={char.avatarColor} emoji={char.avatarEmoji} image={char.avatarImage} size={50} />
                 ) : (
                   <View style={styles.groupAvatar}>
                     <Text style={{ fontSize: 22 }}>👥</Text>
@@ -61,11 +62,14 @@ export default function ChatsScreen() {
                     {item.lastMessage || 'Start chatting...'}
                   </Text>
                 </View>
-                {item.lastMessageTime && (
-                  <Text style={styles.time}>
-                    {formatTime(item.lastMessageTime)}
-                  </Text>
-                )}
+                <View style={styles.metaRight}>
+                  {item.lastMessageTime && (
+                    <Text style={styles.time}>
+                      {formatTime(item.lastMessageTime)}
+                    </Text>
+                  )}
+                  <Ionicons name="chevron-forward" size={14} color={colors.textMuted} />
+                </View>
               </TouchableOpacity>
             );
           }}
@@ -135,6 +139,11 @@ const styles = StyleSheet.create({
   time: {
     ...typography.small,
     color: colors.textMuted,
+  },
+  metaRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
   },
   empty: {
     flex: 1,

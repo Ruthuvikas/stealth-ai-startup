@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Message } from '../../types';
 import { getCharacter } from '../../data/characters';
 import { Avatar } from '../common/Avatar';
@@ -36,13 +37,20 @@ export function MessageBubble({
 }: MessageBubbleProps) {
   const [showReactions, setShowReactions] = useState(false);
   const character = !isUser ? getCharacter(message.senderId) : null;
+  const userReceiptIcon = message.isStreaming ? 'checkmark' : 'checkmark-done';
+  const userReceiptColor = message.isStreaming ? '#9AA89A' : colors.textLink;
+  const hasContent = message.content.trim().length > 0;
+  const visibleContent = hasContent ? message.content : !message.isStreaming ? '...' : '';
 
   return (
     <>
-      <View style={[styles.row, isUser && styles.rowUser]}>
+      <Animated.View
+        entering={FadeInDown.duration(180).springify().damping(18)}
+        style={[styles.row, isUser && styles.rowUser]}
+      >
         {!isUser && showAvatar && character && (
           <View style={styles.avatarCol}>
-            <Avatar color={character.avatarColor} emoji={character.avatarEmoji} size={30} />
+            <Avatar color={character.avatarColor} emoji={character.avatarEmoji} image={character.avatarImage} size={30} />
           </View>
         )}
         {!isUser && showAvatar && !character && <View style={{ width: 38 }} />}
@@ -65,7 +73,7 @@ export function MessageBubble({
           )}
 
           <Text style={[styles.text, isUser && styles.textUser]}>
-            {message.content}
+            {visibleContent}
             {message.isStreaming && <Text style={styles.cursor}>|</Text>}
           </Text>
 
@@ -76,9 +84,9 @@ export function MessageBubble({
             </Text>
             {isUser && (
               <Ionicons
-                name="checkmark-done"
+                name={userReceiptIcon}
                 size={14}
-                color={colors.textLink}
+                color={userReceiptColor}
                 style={{ marginLeft: 3 }}
               />
             )}
@@ -95,7 +103,7 @@ export function MessageBubble({
             </View>
           )}
         </Pressable>
-      </View>
+      </Animated.View>
 
       {/* Regenerate button */}
       {isLastAI && onRegenerate && !message.isStreaming && (
@@ -119,21 +127,21 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    paddingHorizontal: spacing.md,
-    paddingVertical: 2,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 1,
     gap: spacing.xs,
   },
   rowUser: {
     justifyContent: 'flex-end',
   },
   avatarCol: {
-    marginBottom: 2,
+    marginBottom: 3,
   },
   bubble: {
-    maxWidth: '78%',
+    maxWidth: '80%',
     paddingHorizontal: spacing.md,
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.xs,
+    paddingTop: 7,
+    paddingBottom: 4,
     borderRadius: 14,
     position: 'relative',
     borderWidth: 1,
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     color: colors.primary,
-    marginBottom: 2,
+    marginBottom: 1,
   },
   text: {
     ...typography.chat,
@@ -206,7 +214,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginTop: 2,
+    marginTop: 1,
   },
   time: {
     fontSize: 10.5,

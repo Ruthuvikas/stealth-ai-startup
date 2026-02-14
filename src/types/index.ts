@@ -1,3 +1,5 @@
+import type { ImageSourcePropType } from 'react-native';
+
 export interface Character {
   id: string;
   name: string;
@@ -12,6 +14,7 @@ export interface Character {
   culturalDNA: CulturalDNA;
   avatarColor: string;
   avatarEmoji: string;
+  avatarImage?: ImageSourcePropType;
 }
 
 export interface PersonalityMatrix {

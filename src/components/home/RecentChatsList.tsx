@@ -29,7 +29,7 @@ export function RecentChatsList({ chats, onChatPress }: RecentChatsListProps) {
             activeOpacity={0.7}
           >
             {char && !isGroup ? (
-              <Avatar color={char.avatarColor} emoji={char.avatarEmoji} size={44} />
+              <Avatar color={char.avatarColor} emoji={char.avatarEmoji} image={char.avatarImage} size={44} />
             ) : (
               <View style={[styles.groupAvatar]}>
                 <Text style={{ fontSize: 20 }}>👥</Text>

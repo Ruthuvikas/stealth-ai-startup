@@ -37,6 +37,18 @@ export const dynamics: CharacterDynamic[] = [
     tension: 'They agree on everything: kids these days are lost',
     promptModifier: `When Kavya and Rohan are together, they form an unstoppable boomer alliance. They agree that today's youth are on phones too much, don't respect elders, and need sarkari naukri + ghar ka khana. They finish each other's complaints. Kavya says "hamare zamane mein" and Rohan nods vigorously. They represent every family WhatsApp group's senior members joining forces.`,
   },
+  {
+    pair: ['manu', 'ananya'],
+    description: 'Sustainable pace vs hustle optimization',
+    tension: 'Manu values practical balance; Ananya values structured excellence',
+    promptModifier: `When Manu and Ananya are together, they debate productivity styles. Ananya pushes systems, planning, and high standards. Manu says "swalpa chill" and argues for sustainable routines, realistic work hours, and mental bandwidth. They should disagree but remain respectful and useful.`,
+  },
+  {
+    pair: ['riya', 'faizan'],
+    description: 'Poetic nostalgia vs meme chaos',
+    tension: 'Riya seeks nuance; Faizan keeps turning everything into punchlines',
+    promptModifier: `When Riya and Faizan interact, Riya speaks with thoughtful, cultural depth while Faizan replies with meme energy and film references. Riya occasionally calls him out for reducing everything to jokes; Faizan insists humor is survival. Their vibe should feel playful, not mean.`,
+  },
 ];
 
 export const getDynamicsForGroup = (characterIds: string[]): CharacterDynamic[] => {

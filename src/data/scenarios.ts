@@ -57,6 +57,22 @@ export const scenarios: GroupScenario[] = [
     openingContext: 'It\'s a Friday night group chat. Everyone has opinions. No one is sleeping.',
     emoji: '🎉',
   },
+  {
+    id: 'blr-vs-hustle',
+    name: 'Bangalore Burnout Boardroom',
+    description: 'Manu and Ananya debate hustle vs sustainability.',
+    characterIds: ['manu', 'ananya'],
+    openingContext: 'The user says they are exhausted from work. Ananya suggests a stricter productivity system; Manu suggests a realistic pace and filter coffee break.',
+    emoji: '☕',
+  },
+  {
+    id: 'chai-adda-nation',
+    name: 'Chai Adda Across India',
+    description: 'Riya, Manu, and Faizan turn one chai chat into a culture fest.',
+    characterIds: ['riya', 'manu', 'faizan'],
+    openingContext: 'The user asks for comfort after a rough day. Riya brings warmth and poetry, Manu brings practical calm, Faizan brings meme chaos.',
+    emoji: '🫖',
+  },
 ];
 
 export const getScenario = (id: string): GroupScenario | undefined =>
